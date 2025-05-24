@@ -1,0 +1,2 @@
+# SPDRval
+SPDR Validator
