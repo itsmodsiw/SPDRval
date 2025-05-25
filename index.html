@@ -1,0 +1,1317 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SPDR Validator Pitch Deck</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0a0a0a;
+            color: #ffffff;
+            overflow: hidden;
+            -webkit-font-smoothing: antialiased;
+            margin: 0;
+            padding: 0;
+        }
+
+        .deck-container {
+            width: 100vw;
+            height: 100vh;
+            position: relative;
+            background: radial-gradient(circle at 20% 50%, rgba(244, 196, 60, 0.03) 0%, transparent 40%),
+                        radial-gradient(circle at 80% 50%, rgba(186, 57, 247, 0.03) 0%, transparent 40%),
+                        #0a0a0a;
+            overflow: hidden;
+        }
+
+        .slide {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            display: none;
+            align-items: flex-start;
+            justify-content: center;
+            padding: 60px;
+            padding-bottom: 120px;
+            overflow-y: auto;
+            overflow-x: hidden;
+            -webkit-overflow-scrolling: touch;
+            scroll-behavior: smooth;
+        }
+
+        .slide.active {
+            display: flex;
+        }
+
+        .slide-content {
+            max-width: 1200px;
+            width: 100%;
+            text-align: center;
+            margin: 0 auto;
+            padding-bottom: 40px; /* Extra padding at bottom */
+        }
+
+        /* Navigation */
+        .nav {
+            position: fixed;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 16px;
+            z-index: 1000;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 12px;
+            border-radius: 12px;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+
+        .nav button {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.6);
+            padding: 12px 32px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+            transition: all 0.2s;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .nav button:hover {
+            background: rgba(244, 196, 60, 0.1);
+            border-color: #F4C43C;
+            color: #F4C43C;
+        }
+
+        .slide-indicator {
+            position: fixed;
+            top: 40px;
+            right: 40px;
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.4);
+            z-index: 1000;
+        }
+
+        /* Typography */
+        h1 {
+            font-size: clamp(2.5rem, 8vw, 4.5rem);
+            font-weight: 700;
+            margin-bottom: 24px;
+            letter-spacing: -2px;
+            background: linear-gradient(135deg, #F4C43C 0%, #BA39F7 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        h2 {
+            font-size: clamp(2rem, 6vw, 3rem);
+            font-weight: 600;
+            margin-bottom: 24px;
+            letter-spacing: -1px;
+        }
+
+        h3 {
+            font-size: clamp(1.25rem, 4vw, 1.5rem);
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+
+        h4 {
+            font-size: clamp(1.1rem, 3vw, 1.25rem);
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+
+        p {
+            font-size: clamp(1rem, 2.5vw, 1.1rem);
+            line-height: 1.6;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .subtitle {
+            font-size: clamp(1rem, 3vw, 1.25rem);
+            color: rgba(255, 255, 255, 0.5);
+            margin-bottom: 48px;
+            font-weight: 400;
+        }
+
+        /* Feature Cards */
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+            margin-top: 48px;
+        }
+
+        .feature-grid2 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+            margin-top: 48px;
+        }
+
+        .feature-grid1 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+            margin-top: 48px;
+        }
+
+        .feature-grid3 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+            margin-top: 24px;
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            padding: 32px;
+            text-align: left;
+            transition: all 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-4px);
+            background: rgba(255, 255, 255, 0.04);
+            border-color: rgba(244, 196, 60, 0.2);
+        }
+
+        .feature-icon {
+            width: 48px;
+            height: 48px;
+            background: rgba(244, 196, 60, 0.1);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .feature-icon.solana-icon {
+            width: 48px;
+            height: 48px;
+            background: rgba(244,196,60,0.1);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .feature-icon.solana-icon img {
+            width: 24px;
+            height: auto;
+            object-fit: contain;
+        }
+
+        .feature-card h4 {
+            color: #ffffff;
+        }
+
+        .feature-card p {
+            font-size: clamp(0.875rem, 2vw, 0.95rem);
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        /* Swiss Badge */
+        .swiss-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 16px;
+            background: rgba(255, 255, 255, 0.03);
+            padding: 16px 32px;
+            border-radius: 100px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            margin-top: 32px;
+        }
+
+        .swiss-flag {
+            width: 32px;
+            height: 32px;
+            background: #ff0000;
+            position: relative;
+            border-radius: 4px;
+            flex-shrink: 0;
+        }
+
+        .swiss-flag::before,
+        .swiss-flag::after {
+            content: '';
+            position: absolute;
+            background: white;
+        }
+
+        .swiss-flag::before {
+            width: 60%;
+            height: 20%;
+            top: 40%;
+            left: 20%;
+        }
+
+        .swiss-flag::after {
+            width: 20%;
+            height: 60%;
+            top: 20%;
+            left: 40%;
+        }
+
+        /* Tables */
+        .table-wrapper {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            padding: 32px;
+            margin: 32px 0;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .table-wrapper table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 600px;
+        }
+
+        .table-wrapper table th,
+        .table-wrapper table td {
+            text-align: center;
+            vertical-align: middle;
+        }
+
+        .table-wrapper table th:first-child,
+        .table-wrapper table td:first-child {
+            text-align: left;
+        }
+
+        th {
+            padding: 16px;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.5);
+            font-size: clamp(0.75rem, 2vw, 0.875rem);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        td {
+            padding: 20px 16px;
+            font-size: clamp(0.875rem, 2vw, 0.95rem);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        tr.highlight {
+            background: rgba(244, 196, 60, 0.05);
+        }
+
+        tr.highlight td:first-child {
+            color: #F4C43C;
+            font-weight: 600;
+        }
+
+        /* Metrics */
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 24px;
+            margin: 48px 0;
+        }
+
+        .metric-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            padding: 32px 24px;
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .metric-card:hover {
+            transform: translateY(-4px);
+            background: rgba(255, 255, 255, 0.04);
+        }
+
+        .metric-value {
+            font-size: clamp(2rem, 6vw, 3rem);
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .metric-label {
+            font-size: clamp(0.75rem, 2vw, 0.875rem);
+            color: rgba(255, 255, 255, 0.5);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Staking Tiers */
+        .tier-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 32px;
+            margin: 48px 0;
+        }
+
+        .tier-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            padding: 48px;
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .tier-card:hover {
+            transform: translateY(-4px);
+            background: rgba(255, 255, 255, 0.04);
+        }
+
+        .tier-value {
+            font-size: clamp(2.5rem, 8vw, 4rem);
+            font-weight: 700;
+            background: linear-gradient(135deg, #F4C43C 0%, #BA39F7 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin: 24px 0;
+        }
+
+        .tier-features {
+            list-style: none;
+            padding: 0;
+            margin: 0 auto 0;
+            display: inline-block;
+            text-align: left;
+        }
+
+        .tier-features li {
+            margin: 8px 0;
+            position: relative;
+            padding-left: 24px;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: clamp(0.875rem, 2vw, 1rem);
+        }
+
+        .tier-features li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #4CD964;
+            font-weight: bold;
+        }
+
+        /* Revenue */
+        .revenue-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 48px;
+            margin: 64px 0;
+        }
+
+        .revenue-item {
+            text-align: center;
+        }
+
+        .revenue-circle {
+            width: clamp(120px, 20vw, 150px);
+            height: clamp(120px, 20vw, 150px);
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.02);
+            border: 3px solid;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: clamp(2rem, 5vw, 2.5rem);
+            font-weight: 700;
+            margin: 0 auto 24px;
+        }
+
+        .revenue-circle.infra { border-color: #F4C43C; color: #F4C43C; }
+        .revenue-circle.eco { border-color: #BA39F7; color: #BA39F7; }
+        .revenue-circle.ops { border-color: #4CD964; color: #4CD964; }
+
+        /* Choice Cards */
+        .choice-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 32px;
+            margin: 48px 0;
+        }
+
+        .choice-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 2px solid;
+            border-radius: 16px;
+            padding: 48px;
+            text-align: left;
+        }
+
+        .choice-card.spdr {
+            border-color: rgba(244, 196, 60, 0.3);
+            background: rgba(244, 196, 60, 0.02);
+        }
+
+        .choice-card.alt {
+            border-color: rgba(255, 255, 255, 0.08);
+        }
+
+        .choice-card h3 {
+            font-size: clamp(1.5rem, 4vw, 1.75rem);
+            margin-bottom: 32px;
+        }
+
+        .choice-card.spdr h3 { color: #F4C43C; }
+
+        .choice-card ul {
+            list-style: none;
+        }
+
+        .choice-card li {
+            padding: 12px 0 12px 32px;
+            position: relative;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: clamp(0.875rem, 2vw, 1rem);
+        }
+
+        .choice-card li:before {
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+        }
+
+        .choice-card.spdr li:before {
+            content: "✓";
+            color: #4CD964;
+        }
+
+        .choice-card.alt li:before {
+            content: "✗";
+            color: rgba(255, 255, 255, 0.3);
+        }
+
+        /* CTA */
+        .cta-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 24px;
+            padding: clamp(32px, 8vw, 64px);
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .validator-id {
+            background: #0a0a0a;
+            border: 1px solid rgba(244, 196, 60, 0.3);
+            border-radius: 12px;
+            padding: 24px;
+            margin: 32px 0;
+            font-family: monospace;
+            font-size: clamp(0.8rem, 2.5vw, 1rem);
+            color: #F4C43C;
+            word-break: break-all;
+            overflow-wrap: break-word;
+        }
+
+        .cta-button {
+            background: #F4C43C;
+            color: #000000;
+            padding: 18px 48px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-block;
+            text-decoration: none;
+            margin-top: 24px;
+        }
+
+        .cta-button:hover {
+            background: #F9D866;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(244, 196, 60, 0.3);
+        }
+
+        /* Colors */
+        .yellow { color: #F4C43C; }
+        .purple { color: #BA39F7; }
+        .green { color: #4CD964; }
+        .gradient-text {
+            background: linear-gradient(135deg, #F4C43C 0%, #BA39F7 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Enhanced Mobile Responsive */
+        @media (max-width: 768px) {
+            .slide {
+                padding: 20px;
+                padding-bottom: 120px; /* More space for navigation */
+                align-items: flex-start; /* Allow content to start from top */
+            }
+
+            .slide-indicator {
+                top: 20px;
+                right: 20px;
+                font-size: 12px;
+            }
+
+            .nav {
+                bottom: 20px;
+                gap: 12px;
+                width: calc(100% - 40px);
+                max-width: 320px;
+                background: rgba(0, 0, 0, 0.95);
+                padding: 12px;
+                border-radius: 12px;
+                box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+                backdrop-filter: blur(10px);
+                -webkit-backdrop-filter: blur(10px);
+            }
+
+            .nav button {
+                padding: 12px 24px;
+                font-size: 12px;
+                flex: 1;
+            }
+
+            .swiss-badge {
+                padding: 12px 20px;
+                font-size: 0.875rem;
+            }
+
+            .swiss-flag {
+                width: 24px;
+                height: 24px;
+            }
+
+            .table-wrapper {
+                padding: 16px;
+                margin: 16px -20px;
+                border-radius: 0;
+                border-left: none;
+                border-right: none;
+            }
+
+            .feature-card,
+            .metric-card,
+            .tier-card,
+            .choice-card {
+                padding: 24px;
+            }
+
+            .tier-card {
+                padding: 32px 24px;
+            }
+
+            .cta-card {
+                padding: 32px 24px;
+            }
+
+            .validator-id {
+                padding: 16px;
+                font-size: 0.75rem;
+            }
+
+            .revenue-grid {
+                gap: 32px;
+                margin: 48px 0;
+            }
+
+            .revenue-item p {
+                font-size: 0.875rem;
+            }
+
+            .metrics-grid {
+                gap: 16px;
+            }
+
+            .metric-card {
+                padding: 24px 16px;
+            }
+
+            /* Adjust list padding on mobile */
+            .choice-card li,
+            .tier-features li {
+                padding-left: 24px;
+            }
+
+            /* Ensure readable minimum font sizes */
+            p, td, .feature-card p {
+                font-size: max(0.875rem, 14px);
+            }
+
+            h4, .metric-label {
+                font-size: max(0.875rem, 14px);
+            }
+
+            /* Stack certain grids earlier on mobile */
+            .feature-grid,
+            .feature-grid2,
+            .feature-grid3 {
+                grid-template-columns: 1fr;
+            }
+
+            /* Touch-friendly tap targets */
+            a, button {
+                min-height: 44px;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+            }
+        }
+
+        /* Small mobile devices */
+        @media (max-width: 375px) {
+            .slide {
+                padding: 16px;
+                padding-bottom: 110px;
+            }
+
+            h1 {
+                font-size: 2rem;
+                letter-spacing: -1px;
+            }
+
+            h2 {
+                font-size: 1.5rem;
+            }
+
+            .validator-id {
+                font-size: 0.65rem;
+                padding: 12px;
+            }
+
+            .nav {
+                bottom: 16px;
+            }
+
+            .nav button {
+                padding: 10px 16px;
+                font-size: 11px;
+            }
+        }
+
+        /* Landscape mobile */
+        @media (max-height: 600px) and (orientation: landscape) {
+            .slide {
+                padding: 20px 40px;
+                padding-bottom: 100px;
+            }
+
+            h1 {
+                font-size: 2.5rem;
+            }
+
+            h2 {
+                font-size: 2rem;
+            }
+
+            .subtitle {
+                margin-bottom: 24px;
+            }
+
+            .metrics-grid,
+            .feature-grid,
+            .tier-grid {
+                margin: 24px 0;
+            }
+
+            .nav {
+                bottom: 16px;
+            }
+        }
+
+        /* Better scrolling behavior */
+        @media (hover: none) and (pointer: coarse) {
+            .slide {
+                -webkit-overflow-scrolling: touch;
+                scroll-behavior: smooth;
+            }
+
+            /* Disable hover effects on touch devices */
+            .feature-card:hover,
+            .metric-card:hover,
+            .tier-card:hover,
+            .nav button:hover,
+            .cta-button:hover {
+                transform: none;
+                background: inherit;
+                border-color: inherit;
+                color: inherit;
+                box-shadow: none;
+            }
+
+            /* Ensure nav buttons remain visible and tappable */
+            .nav button {
+                background: rgba(244, 196, 60, 0.15);
+                border-color: rgba(244, 196, 60, 0.3);
+                color: #F4C43C;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="deck-container">
+        <div class="slide-indicator">
+            <span id="current-slide">1</span> / <span id="total-slides">12</span>
+        </div>
+
+        <!-- Slide 1: Title -->
+        <div class="slide active">
+            <div class="slide-content">
+                <h1>SPDR Validator</h1>
+                <p style="font-size: clamp(1.25rem, 4vw, 1.5rem); color: rgba(255,255,255,0.7); margin-bottom: 40px;">
+                    Swiss Precision. Superior Performance.
+                </p>
+                <div class="swiss-badge">
+                    <div class="swiss-flag"></div>
+                    <span style="font-weight: 500;">100% Swiss Infrastructure</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 2: Why Delegate to SPDR -->
+        <div class="slide">
+            <div class="slide-content">
+                <h2>Why Delegate to SPDR</h2>
+                <p class="subtitle">Three Swiss entrepreneurs delivering exceptional validator performance</p>
+
+                <div class="feature-grid2">
+                    <div class="feature-card">
+                        <div class="feature-icon">💰</div>
+                        <h4>Community-Focused Economics</h4>
+                        <p>70% of revenue reinvested in infrastructure and ecosystem tools that benefit all users.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🛡️</div>
+                        <h4>Advanced MEV Protection</h4>
+                        <p>Integrated validator-DEX architecture providing enhanced protection from sandwich attacks.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">⚡</div>
+                        <h4>0% Skip Rate</h4>
+                        <p>Perfect block production record with 99.8% vote rate, ensuring maximum rewards for delegators.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🏔️</div>
+                        <h4>Swiss Infrastructure</h4>
+                        <p>Our fully owned micro data center in Switzerland ensures true data control — no white-label hosting, no overseas shortcuts.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 3: Performance First -->
+        <div class="slide">
+            <div class="slide-content">
+                <h2>Performance That Delivers</h2>
+                <p class="subtitle">Consistent excellence that maximizes your staking rewards</p>
+
+                <div class="metrics-grid">
+                    <div class="metric-card">
+                        <div class="metric-value gradient-text">0%</div>
+                        <div class="metric-label">Skip Rate</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value yellow">99.8%</div>
+                        <div class="metric-label">Vote Success</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value purple">8.1%</div>
+                        <div class="metric-label">APY</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value green">5%</div>
+                        <div class="metric-label">Commission</div>
+                    </div>
+                </div>
+
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Validator</th>
+                                <th>Commission</th>
+                                <th>Skip Rate</th>
+                                <th>Vote Rate</th>
+                                <th>Infrastructure</th>
+                                <th>Revenue Share</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="highlight">
+                                <td>SPDR</td>
+                                <td>5%</td>
+                                <td>0%</td>
+                                <td>99.8%</td>
+                                <td>Swiss Micro Data Centers</td>
+                                <td class="green">70% to infrastructure</td>
+                            </tr>
+                            <tr>
+                                <td>Figment</td>
+                                <td>7%</td>
+                                <td>0.14%</td>
+                                <td>99.7%</td>
+                                <td>Offshore</td>
+                                <td>0%</td>
+                            </tr>
+                            <tr>
+                                <td>Luganodes</td>
+                                <td>10%</td>
+                                <td>0.09%</td>
+                                <td>99.9%</td>
+                                <td>Offshore</td>
+                                <td>0%</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 4: Our Differentiators -->
+        <div class="slide">
+            <div class="slide-content">
+                <h2>What Makes SPDR Different</h2>
+                <p class="subtitle">Not just another validator – a commitment to network excellence</p>
+
+                <div class="feature-grid1">
+                    <div class="feature-card">
+                        <div class="feature-icon">🔓</div>
+                        <h4>True Independence</h4>
+                        <p>No VC backing, no exchange control. We answer only to our delegators and the network's health.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🏗️</div>
+                        <h4>Infrastructure Provider</h4>
+                        <p>Direct RPC integration and institutional bridges, not just validation – building Solana's future.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">💎</div>
+                        <h4>Infrastructure Investment</h4>
+                        <p>70% of validator earnings reinvested in infrastructure and ecosystem development.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🛡️</div>
+                        <h4>Integrated MEV Protection</h4>
+                        <p>SpiderSwap integration provides enhanced MEV protection through validator-level bundling.</p>
+                    </div>
+
+                </div>
+                <div class="feature-grid3">
+                    <div class="feature-card">
+                        <div class="feature-icon solana-icon" style="width:48px; height:48px;
+           background: rgba(244,196,60,0.1) !important;
+           border-radius: 12px !important;
+           display: flex; align-items: center; justify-content: center;
+           margin-bottom: 20px;">
+                            <img src="https://assets.crypto.ro/logos/solana-sol-logo.png" alt="Solana Logo" style="width:24px; height:auto; object-fit:contain;" />
+                        </div>
+                        <h4>Solana Foundation Program</h4>
+                        <p>Delegation Program member: up-to-date software, strict SLAs, and active community engagement</p>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon">🚀</div>
+                        <h4>Active Development</h4>
+                        <p>33,000 SOL in testnet, early SWQoS implementation, continuous protocol improvements.</p>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon">🔍</div>
+                        <h4>Full Transparency</h4>
+                        <p>On-site infrastructure inspections available. See exactly where your delegation is secured.</p>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 5: Swiss Infrastructure -->
+        <div class="slide">
+            <div class="slide-content">
+                <h2>Genuine Swiss Infrastructure</h2>
+                <p class="subtitle">Not offshore servers with Swiss marketing – actual Swiss data centers</p>
+
+                <div class="tier-grid">
+                    <div class="tier-card">
+                        <h3 class="yellow">Zug Data Center</h3>
+                        <p style="color: rgba(255,255,255,0.5); margin-bottom: 20px;">Northern Switzerland</p>
+                        <span style="background: rgba(76, 217, 100, 0.1); color: #4CD964; padding: 8px 20px; border-radius: 100px; font-size: 0.875rem;">Privately Owned Infrastructure</span>
+                    </div>
+                    <div class="tier-card">
+                        <h3 class="purple">Interlaken Data Center</h3>
+                        <p style="color: rgba(255,255,255,0.5); margin-bottom: 20px;">Central Switzerland</p>
+                        <span style="background: rgba(76, 217, 100, 0.1); color: #4CD964; padding: 8px 20px; border-radius: 100px; font-size: 0.875rem;">Privately Owned Infrastructure</span>
+                    </div>
+                </div>
+
+                <p style="margin-top: 48px; font-size: clamp(1rem, 3vw, 1.25rem);">
+                    <span class="yellow">Network Connectivity:</span> 20 Gbps bandwidth, SwissIX peering, and ultra-low-latency connectivity via Init7, WWZ, and Green.ch.
+                </p>
+
+                <div style="margin-top: 48px; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.08); border-radius: 16px; padding: 32px;">
+                    <h3>Operated by Swiss Citizens</h3>
+                    <p>Team based in Zug and Thun • Direct operator access • On-site inspections welcome</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 6: Technical Excellence -->
+        <div class="slide">
+            <div class="slide-content">
+                <h2>Technical Excellence</h2>
+                <p class="subtitle">Enterprise-grade infrastructure ensuring maximum uptime</p>
+
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <h4>Hardware</h4>
+                        <p>• AMD Threadripper processors
+                            <br> • Hardware Security Modules
+                            <br> • Enterprise NVMe storage
+                            <br> • Redundant power systems</p>
+                    </div>
+                    <div class="feature-card">
+                        <h4>Architecture</h4>
+                        <p>• Hot-standby replicas
+                            <br> • Sentry mesh configuration
+                            <br> • Load-balanced infrastructure
+                            <br> • Geographic redundancy</p>
+                    </div>
+                    <div class="feature-card">
+                        <h4>Software</h4>
+                        <p>• Agave client implementation
+                            <br> • Jito-Solana MEV optimization
+                            <br> • Custom monitoring stack
+                            <br> • Automated failover systems</p>
+                    </div>
+                    <div class="feature-card">
+                        <h4>Security</h4>
+                        <p>• MEV Protection V2
+                            <br> • DDoS mitigation
+                            <br> • Private key isolation
+                            <br> • 24/7 threat monitoring</p>
+                    </div>
+                    <div class="feature-card">
+                        <h4>Monitoring</h4>
+                        <p>• Sub-5 minute alert response
+                            <br> • Automated health checks
+                            <br> • Performance analytics
+                            <br> • Transparent incident reports</p>
+                    </div>
+                    <div class="feature-card">
+                        <h4>Future Proof</h4>
+                        <p>• Firedancer ready
+                            <br> • Cross-chain preparation
+                            <br> • Continuous upgrades
+                            <br> • Scaling infrastructure</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 7: SpiderSwap Innovation -->
+        <div class="slide">
+            <div class="slide-content">
+                <h2>SpiderSwap: Validator-Integrated DEX</h2>
+                <p class="subtitle">A unique approach combining validation with decentralized exchange</p>
+
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Feature</th>
+                                <th>SpiderSwap</th>
+                                <th>Jupiter</th>
+                                <th>Raydium</th>
+                                <th>Orca</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Integrated Validator</td>
+                                <td class="green">✓ MEV-protected</td>
+                                <td class="green">✓ MEV-protected</td>
+                                <td style="color: rgba(255,255,255,0.3);">✗</td>
+                                <td style="color: rgba(255,255,255,0.3);">✗</td>
+                            </tr>
+                            <tr>
+                                <td>Trading Fees</td>
+                                <td class="yellow">$0.10 flat</td>
+                                <td>0.3–0.6%</td>
+                                <td>0.25%</td>
+                                <td>0.3%</td>
+                            </tr>
+                            <tr>
+                                <td>Revenue to Users</td>
+                                <td class="yellow">70% to ecosystem</td>
+                                <td>Varies</td>
+                                <td>Varies</td>
+                                <td>Varies</td>
+                            </tr>
+                            <tr>
+                                <td>Governance</td>
+                                <td class="green">Liquid Democracy</td>
+                                <td>Token Voting</td>
+                                <td>Centralized</td>
+                                <td>Limited</td>
+                            </tr>
+                            <tr>
+                                <td>Aggregation</td>
+                                <td class="green">✓</td>
+                                <td class="green">✓</td>
+                                <td style="color: rgba(255,255,255,0.3);">✗</td>
+                                <td style="color: rgba(255,255,255,0.3);">✗</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div style="margin-top: 48px; text-align: center;">
+                    <p style="font-size: clamp(1rem, 3vw, 1.2rem);">
+                        <span class="yellow">SpiderSwap benefits:</span> Enhanced MEV protection and low fees for all network users
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 8: Staking Rewards -->
+        <div class="slide">
+            <div class="slide-content">
+                <h2>Staking Benefits with SPDR</h2>
+                <p class="subtitle">Standard SOL staking rewards plus ecosystem advantages</p>
+
+                <div class="tier-grid">
+                    <div class="tier-card">
+                        <h4>SPDR Staking</h4>
+                        <div class="tier-value">8.1%</div>
+                        <p style="color: rgba(255,255,255,0.5); margin-bottom: 32px;">Current APY</p>
+                        <ul class="tier-features">
+                            <li>Standard Solana staking rewards</li>
+                            <li>5% commission (vs 7% typical)</li>
+                            <li>Perfect 0% skip rate</li>
+                            <li>99.8% vote success rate</li>
+                        </ul>
+                    </div>
+                    <div class="tier-card">
+                        <h4>SpiderSwap Benefits</h4>
+                        <div style="font-size: clamp(1.5rem, 5vw, 2rem); font-weight: 700; color: #BA39F7; margin: 24px 0;">Ecosystem<br>Access</div>
+                        <p style="color: rgba(255,255,255,0.5); margin-bottom: 32px;">Additional opportunities</p>
+                        <ul class="tier-features">
+                            <li>Access to SpiderSwap DEX</li>
+                            <li>$0.10 flat trading fees</li>
+                            <li>SPDR token staking options</li>
+                            <li>Governance participation</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 9: Ecosystem Leadership -->
+        <div class="slide">
+            <div class="slide-content">
+                <h2>Building Solana's Future</h2>
+                <p class="subtitle">Active contributions beyond validation</p>
+
+                <div class="feature-grid2">
+                    <div class="feature-card">
+                        <div class="feature-icon">🌐</div>
+                        <h4>Free Swiss RPC</h4>
+                        <p>Public RPC endpoint at rpc.carbium.io supporting developers worldwide with Swiss reliability.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🧪</div>
+                        <h4>Testnet Leadership</h4>
+                        <p>33,000+ SOL committed to testing, helping secure Solana's upgrades before mainnet deployment.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">⚡</div>
+                        <h4>Protocol Innovation</h4>
+                        <p>Early adopter of SWQoS, active in governance, contributing to core protocol improvements.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🏛️</div>
+                        <h4>Institutional Bridge</h4>
+                        <p>Building infrastructure for institutional adoption with compliance-ready Swiss operations.</p>
+                    </div>
+                </div>
+
+                <div style="margin-top: 48px; text-align: center;">
+                    <h3>Growth Path</h3>
+                    <p style="font-size: clamp(1rem, 3vw, 1.25rem); margin-top: 16px;">
+                        <span class="yellow">Current:</span> 32,000 SOL →
+                        <span class="purple">Target:</span> 600,000 SOL
+                    </p>
+                    <p style="margin-top: 16px; color: rgba(255,255,255,0.6);">Join us early in our growth journey</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 10: Transparent Economics -->
+        <div class="slide">
+            <div class="slide-content">
+                <h2>Revenue Allocation</h2>
+                <p class="subtitle">Transparent allocation focused on infrastructure and growth</p>
+
+                <div class="revenue-grid">
+                    <div class="revenue-item">
+                        <div class="revenue-circle infra">70%</div>
+                        <h4>Infrastructure</h4>
+                        <p>Hardware, data centers, and performance optimization</p>
+                    </div>
+                    <div class="revenue-item">
+                        <div class="revenue-circle eco">20%</div>
+                        <h4>Ecosystem Development</h4>
+                        <p>SpiderSwap, tools, and community projects</p>
+                    </div>
+                    <div class="revenue-item">
+                        <div class="revenue-circle ops">10%</div>
+                        <h4>Operations</h4>
+                        <p>Team and operational expenses</p>
+                    </div>
+                </div>
+
+                <div style="margin-top: 64px; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.08); border-radius: 16px; padding: 32px;">
+                    <p><span class="purple">Delegation benefits:</span> Lower commission (5% vs 7%) means higher net staking rewards</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 11: Clear Choice -->
+        <div class="slide">
+            <div class="slide-content">
+                <h2>The Delegation Decision</h2>
+                <div class="choice-grid">
+                    <div class="choice-card spdr">
+                        <h3>SPDR Validator</h3>
+                        <ul>
+                            <li>Swiss infrastructure</li>
+                            <li>0% skip rate performance</li>
+                            <li>70% reinvested in infrastructure</li>
+                            <li>Integrated MEV protection</li>
+                            <li>5% commission only</li>
+                            <li>SpiderSwap ecosystem benefits</li>
+                            <li>Active development</li>
+                            <li>Transparent operations</li>
+                        </ul>
+                    </div>
+                    <div class="choice-card alt">
+                        <h3>Other Validators</h3>
+                        <ul>
+                            <li>Offshore infrastructure</li>
+                            <li>Higher skip rates</li>
+                            <li>No revenue sharing</li>
+                            <li>Standard MEV handling</li>
+                            <li>7%+ commissions</li>
+                            <li>Basic staking only</li>
+                            <li>Minimal development</li>
+                            <li>Limited transparency</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 12: Delegate Now -->
+        <div class="slide">
+            <div class="slide-content">
+                <div class="cta-card">
+                    <h2>Delegate to Swiss Excellence</h2>
+                    <p style="font-size: clamp(1rem, 3vw, 1.25rem); margin: 24px 0;">
+                        Join delegators earning superior returns with genuine Swiss infrastructure
+                    </p>
+
+                    <div class="validator-id">
+                        <strong style="color: rgba(255,255,255,0.7); font-weight: 500;">VALIDATOR IDENTITY</strong>
+                        <br>
+                        <span style="font-size: clamp(0.9rem, 2.5vw, 1.1rem);">SP9K2c8Z1aaQaqdQgC6hZMJ5UCTTnE76XNYVse7H94b</span>
+                    </div>
+                    <div style="margin-top: 48px;">
+                        <p style="font-size: 1rem; margin-bottom: 8px;">Questions? Want to inspect our infrastructure?</p>
+                        <p>
+                            <a href="mailto:modsiw@spiderswap.io" style="color: #BA39F7; text-decoration: none; font-weight: 500;">
+                                modsiw@spiderswap.io
+                            </a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Navigation -->
+        <div class="nav">
+            <button onclick="previousSlide()">Previous</button>
+            <button onclick="nextSlide()">Next</button>
+        </div>
+    </div>
+
+    <script>
+        let currentSlide = 1;
+        const totalSlides = 12;
+
+        function showSlide(n) {
+            const slides = document.querySelectorAll('.slide');
+            
+            if (n > totalSlides) currentSlide = 1;
+            if (n < 1) currentSlide = totalSlides;
+            
+            slides.forEach(slide => slide.classList.remove('active'));
+            slides[currentSlide - 1].classList.add('active');
+            
+            document.getElementById('current-slide').textContent = currentSlide;
+
+            // Reset scroll position when changing slides
+            slides[currentSlide - 1].scrollTop = 0;
+        }
+
+        function nextSlide() {
+            currentSlide++;
+            showSlide(currentSlide);
+        }
+
+        function previousSlide() {
+            currentSlide--;
+            showSlide(currentSlide);
+        }
+
+        // Keyboard navigation only
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight') nextSlide();
+            if (e.key === 'ArrowLeft') previousSlide();
+        });
+
+        // Ensure slides are scrollable without interference
+        document.querySelectorAll('.slide').forEach(slide => {
+            slide.addEventListener('touchstart', (e) => {
+                e.stopPropagation();
+            }, { passive: true });
+        });
+    </script>
+</body>
+
+</html>
